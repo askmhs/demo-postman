@@ -14,9 +14,9 @@
 $app->get('/', function () use ($app) {
     return $app->version();
 });
-$app->get('product', [
-	'as' => 'product.index', 'uses' => 'ProductController@product'
-]);
-$app->get('product/category', [
-	'as' => 'product.category', 'uses' => 'ProductController@category'
-]);
+// $app->get('product', [
+// 	'as' => 'product.index', 'uses' => 'ProductController@product'
+// ]);
+// $app->get('product/category', [
+// 	'as' => 'product.category', 'uses' => 'ProductController@category'
+// ]);

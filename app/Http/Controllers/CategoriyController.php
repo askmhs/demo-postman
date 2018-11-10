@@ -4,11 +4,11 @@
  * @Author: Muhammad Harits Syaifulloh
  * @Date:   2018-11-10 08:38:14
  * @Last Modified by:   Muhammad Harits Syaifulloh
- * @Last Modified time: 2018-11-10 08:52:40
+ * @Last Modified time: 2018-11-10 10:06:58
  */
 
-use Illuminate\Http\Request;
 use App\Category;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /**
@@ -56,7 +56,7 @@ class CategoryController extends Controller
 			$created = Category::create($request->all());
 			return response()->json([
 				"success" => true,
-				"message" => "List category",
+				"message" => "Successfully create new category",
 				"data" => Category::find($created->id)
 			]);
 		} catch (\Exception $exception) {
@@ -75,9 +75,15 @@ class CategoryController extends Controller
 			$category->update($request->all());
 			return response()->json([
 				"success" => true,
-				"message" => "List category",
+				"message" => "Successfully update category",
 				"data" => Category::find($id)
 			]);
+		} catch (ModelNotFoundException $exception) {
+			return response()->json([
+				"success" => false,
+				"message" =>  "The data you're looking for couldn't be found!",
+				"data" => null
+			], 404);
 		} catch (\Exception $exception) {
 			return response()->json([
 				"success" => false,
@@ -89,6 +95,26 @@ class CategoryController extends Controller
 
 	public function destroy($id)
 	{
-
+		try {
+			$category = Category::findOrFail($id);
+			$category->delete();
+			return response()->json([
+				"success" => true,
+				"message" => "Successfully remove data",
+				"data" => null
+			]);
+		} catch (ModelNotFoundException $exception) {
+			return response()->json([
+				"success" => false,
+				"message" =>  "The data you're looking for couldn't be found!",
+				"data" => null
+			], 404);
+		} catch (\Exception $exception) {
+			return response()->json([
+				"success" => false,
+				"message" =>  "An error occurred while removing data!",
+				"data" => null
+			], 500);
+		}
 	}
 }
